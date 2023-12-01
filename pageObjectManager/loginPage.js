@@ -1,4 +1,5 @@
-const { expect } = require("@playwright/test");
+import { expect } from "@playwright/test";
+
 class LoginPage {
   constructor(page) {
     this.page = page;
@@ -23,6 +24,10 @@ class LoginPage {
     this.createAccountBtn = page.getByRole("button", {
       name: "Create an Account",
     });
+    this.userBanerInProfile = page.locator(
+      "div[class='panel header'] span[class='logged-in']",
+    );
+    this.signedOutMessage = page.getByText("You are signed out");
   }
 
   async goTo(Url) {
@@ -37,7 +42,13 @@ class LoginPage {
     await this.createAccountBtn.click();
   }
 
-  async fillTheFields(FirstName, LastName, Email, Password, ConfirmPassword) {
+  async fillTheNewUserFields(
+    FirstName,
+    LastName,
+    Email,
+    Password,
+    ConfirmPassword,
+  ) {
     await this.firstName.fill(FirstName);
     await this.lastName.fill(LastName);
     await this.email.fill(Email);
@@ -45,12 +56,29 @@ class LoginPage {
     await this.confirmPassword.last().fill(ConfirmPassword);
   }
 
+  async fillTheLoginFields(Email, Password) {
+    await this.email.fill(Email);
+    await this.password.first().fill(Password);
+  }
+
   async clickSignInBtn() {
     await this.signInBtn.click();
   }
 
+  async pageLoadState() {
+    await this.page.waitForLoadState("load");
+  }
+
+  async waitForUserBanerInProfile() {
+    await this.userBanerInProfile.waitFor();
+  }
+
   async assertnewCustomerBanner() {
     await expect(this.newCustomerBanner).toBeVisible();
+  }
+
+  async assertLoginCustomerBanner() {
+    await expect(this.customerLoginBanner).toBeVisible();
   }
 
   async assertforgotPassword() {
@@ -71,10 +99,14 @@ class LoginPage {
     ).toBeVisible();
   }
 
-  async assertUserBanerInProfile(FirstName, LastName) {
+  async assertUserBanerInProfile(Banner) {
     await expect(
-      this.page.getByRole("banner").getByText("Welcome", FirstName + LastName),
-    ).toBeVisible();
+      this.page.locator("div[class='panel header'] span[class='logged-in']"),
+    ).toHaveText(Banner);
+  }
+
+  async assertUserSignedOut() {
+    await expect(this.signedOutMessage).toBeVisible();
   }
 }
 module.exports = { LoginPage };
