@@ -1,9 +1,9 @@
-import { expect } from "@playwright/test";
+const { expect } = require("@playwright/test");
 
 class LoginPage {
   constructor(page) {
     this.page = page;
-    this.signInLink = page.getByRole("link", { name: "Sign In" });
+
     this.signInBtn = page.getByRole("button", { name: "Sign In" });
     this.firstName = page.getByRole("textbox", { name: "First Name*" });
     this.lastName = page.getByRole("textbox", { name: "Last Name*" });
@@ -32,10 +32,6 @@ class LoginPage {
 
   async goTo(Url) {
     await this.page.goto(Url);
-  }
-
-  async clickSignInLink() {
-    await this.signInLink.click();
   }
 
   async clickCreateAccountBtn() {

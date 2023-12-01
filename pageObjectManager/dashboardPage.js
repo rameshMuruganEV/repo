@@ -3,6 +3,7 @@ const { expect } = require("@playwright/test");
 class DashboardPage {
   constructor(page) {
     this.page = page;
+    this.signInLink = page.getByRole("link", { name: "Sign In" });
     this.createAccountLink = page.getByRole("link", {
       name: "Create an Account",
     });
@@ -23,6 +24,10 @@ class DashboardPage {
       name: "Hoodies & Sweatshirts",
     });
     this.product = page.getByText("Hollister Backyard Sweatshirt");
+  }
+
+  async clickSignInLink() {
+    await this.signInLink.click();
   }
 
   async selectProduct() {

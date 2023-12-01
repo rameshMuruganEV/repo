@@ -1,6 +1,6 @@
-const { LoginPage } = require("../pageObjectMagento/loginPage");
-const { DashboardPage } = require("../pageObjectMagento/dashboardPage");
-class POM_Magento {
+const { LoginPage } = require("../pageObjectManager/loginPage");
+const { DashboardPage } = require("../pageObjectManager/dashboardPage");
+class PageObjectManager {
   constructor(page) {
     this.page = page;
     this.loginPage = new LoginPage(this.page);
@@ -10,9 +10,10 @@ class POM_Magento {
   async getLoginPage() {
     return this.loginPage;
   }
+
   async getDashboardPage() {
     return this.dashboardPage;
   }
 }
 
-module.exports = { POM_Magento };
+module.exports = { PageObjectManager };

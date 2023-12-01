@@ -1,10 +1,10 @@
-import { customTest } from "../testData/testData_Magento";
-import { POM_Magento } from "../pageObjectMagento/POM_Magento";
+import { customTest } from "../testData/testData";
+import { PageObjectManager } from "../pageObjectManager/PageObjectManager";
 
 customTest.skip("registeringNewUser", async ({ page, registeringNewUser }) => {
-  const pOM_Magento = new POM_Magento(page);
-  const loginPage = await pOM_Magento.getLoginPage();
-  const dashboardPage = await pOM_Magento.getDashboardPage();
+  const POM = new PageObjectManager(page);
+  const loginPage = await POM.getLoginPage();
+  const dashboardPage = await POM.getDashboardPage();
 
   await loginPage.goTo(registeringNewUser.Url);
   await dashboardPage.clickCreateAccountLink();
@@ -28,8 +28,8 @@ customTest.skip("registeringNewUser", async ({ page, registeringNewUser }) => {
 });
 
 customTest.skip("loginUser", async ({ page, loginUser }) => {
-  const pOM_Magento = new POM_Magento(page);
-  const loginPage = await pOM_Magento.getLoginPage();
+  const POM = new PageObjectManager(page);
+  const loginPage = await POM.getLoginPage();
 
   await loginPage.goTo(loginUser.Url);
   await loginPage.clickSignInLink();
@@ -41,20 +41,12 @@ customTest.skip("loginUser", async ({ page, loginUser }) => {
   await loginPage.assertUserBanerInProfile(loginUser.Banner);
 });
 
-customTest.skip("login_logoutUser", async ({ page, login_logoutUser }) => {
-  const pOM_Magento = new POM_Magento(page);
-  const loginPage = await pOM_Magento.getLoginPage();
-  const dashboardPage = await pOM_Magento.getDashboardPage();
+customTest("login_logoutUser", async ({ page, login_logoutUser }) => {
+  const POM = new PageObjectManager(page);
+  const loginPage = await POM.getLoginPage();
+  const dashboardPage = await POM.getDashboardPage();
 
   await loginPage.goTo(login_logoutUser.Url);
-  await loginPage.clickSignInLink();
-  await loginPage.assertLoginCustomerBanner();
-  await loginPage.fillTheLoginFields(
-    login_logoutUser.Email,
-    login_logoutUser.Password,
-  );
-  await loginPage.clickSignInBtn();
-  await loginPage.pageLoadState();
   await loginPage.waitForUserBanerInProfile();
   await dashboardPage.clickdropDownProfile();
   await dashboardPage.clickSignoutOption();
@@ -62,15 +54,11 @@ customTest.skip("login_logoutUser", async ({ page, login_logoutUser }) => {
 });
 
 customTest("e2eTest", async ({ page, e2eTest }) => {
-  const pOM_Magento = new POM_Magento(page);
-  const loginPage = await pOM_Magento.getLoginPage();
-  const dashboardPage = await pOM_Magento.getDashboardPage();
+  const POM = new PageObjectManager(page);
+  const loginPage = await POM.getLoginPage();
+  const dashboardPage = await POM.getDashboardPage();
 
   await loginPage.goTo(e2eTest.Url);
-  await loginPage.clickSignInLink();
-  await loginPage.assertLoginCustomerBanner();
-  await loginPage.fillTheLoginFields(e2eTest.Email, e2eTest.Password);
-  await loginPage.clickSignInBtn();
   await dashboardPage.selectMenCategory();
   await dashboardPage.selectSweatshirts();
   await dashboardPage.selectProduct();

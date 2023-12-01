@@ -11,11 +11,11 @@ import { defineConfig, devices } from "@playwright/test";
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
-  globalSetup: "./magentoGlobalSetup.js",
-  timeout: 60 * 1000,
-  testDir: "./e2eTestCases",
+  globalSetup: "./globalSetup.js",
+  timeout: 30 * 1000,
+  testDir: "./testCase",
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -32,7 +32,8 @@ module.exports = defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
     video: "retain-on-failure",
-    headless: true,
+    // headless: false,
+    storageState: "./loginAuth.json",
   },
 
   /* Configure projects for major browsers */

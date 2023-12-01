@@ -1,10 +1,11 @@
 import { chromium, expect } from "@playwright/test";
 
-async function magentoGlobalSetup() {
+async function globalSetup() {
   const browser = await chromium.launch();
   const context = await browser.newContext();
   const page = await context.newPage();
   await page.goto("https://magento.softwaretestingboard.com/");
+  await page.getByRole("link", { name: "Sign In" }).click();
   await page
     .getByLabel("Email", { exact: true })
     .fill("rameshmtester@gmail.com");
@@ -21,4 +22,4 @@ async function magentoGlobalSetup() {
   await page.context().storageState({ path: "./loginAuth.json" });
   await browser.close();
 }
-export default magentoGlobalSetup;
+export default globalSetup;
