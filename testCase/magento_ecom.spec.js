@@ -30,9 +30,10 @@ customTest.skip("registeringNewUser", async ({ page, registeringNewUser }) => {
 customTest.skip("loginUser", async ({ page, loginUser }) => {
   const POM = new PageObjectManager(page);
   const loginPage = await POM.getLoginPage();
+  const dashboardPage = await POM.getDashboardPage();
 
   await loginPage.goTo(loginUser.Url);
-  await loginPage.clickSignInLink();
+  await dashboardPage.clickSignInLink();
   await loginPage.assertLoginCustomerBanner();
   await loginPage.fillTheLoginFields(loginUser.Email, loginUser.Password);
   await loginPage.clickSignInBtn();
@@ -113,4 +114,30 @@ customTest("e2eTest", async ({ page, e2eTest }) => {
   // ).toBeVisible();
   // await page1.getByRole("link", { name: "View Order" }).first().click();
   // await expect(page1.getByText("Order #")).toBeVisible();
+});
+
+customTest("password reset", async ({ page, passwordReset }) => {
+  const POM = new PageObjectManager(page);
+  const loginPage = await POM.getLoginPage();
+  const dashboardPage = await POM.getDashboardPage();
+  const accountPage = await POM.getAccountPage();
+
+  await accountPage.goToUrl(passwordReset.Url);
+  await loginPage.waitForUserBanerInProfile();
+  await dashboardPage.clickdropDownProfile();
+  await dashboardPage.clickMyAccountLink();
+  await accountPage.assertmyAccountBannerIsVisible(
+    passwordReset.MyAccountBanner,
+  );
+  await accountPage.assertmyAccountURL(passwordReset.MyAccountUrl);
+  await accountPage.clickChangePassword();
+  await accountPage.assertchangePasswordPageIsLoaded();
+  // await accountPage.assertchangePasswordCheckbokIsChecked();
+  await accountPage.fillPasswordResetFields(
+    passwordReset.CurrentPassword,
+    passwordReset.NewPassword,
+    passwordReset.ConfirmNewPassword,
+  );
+  await accountPage.clickSaveBtn();
+  await accountPage.assertsuccessfulPasswordChange();
 });

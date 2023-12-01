@@ -12,6 +12,7 @@ class DashboardPage {
       .locator("button")
       .filter({ hasText: "Change" });
     this.signOutLink = page.getByRole("link", { name: "Sign Out" });
+    this.myAccountLink = page.getByRole("link", { name: "My Account" });
     this.menCategory = page
       .getByRole("menuitem")
       .filter({ hasText: "Men" })
@@ -28,6 +29,10 @@ class DashboardPage {
 
   async clickSignInLink() {
     await this.signInLink.click();
+  }
+
+  async clickMyAccountLink() {
+    await this.myAccountLink.click();
   }
 
   async selectProduct() {

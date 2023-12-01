@@ -39,4 +39,13 @@ exports.customTest = base.test.extend({
   logoutUser: {
     Url: "https://magento.softwaretestingboard.com/",
   },
+
+  passwordReset: {
+    Url: "https://magento.softwaretestingboard.com/",
+    MyAccountBanner: "My Account",
+    MyAccountUrl: "https://magento.softwaretestingboard.com/customer/account/",
+    CurrentPassword: "Lala@123",
+    NewPassword: "Lala@123",
+    ConfirmNewPassword: "Lala@123",
+  },
 });
