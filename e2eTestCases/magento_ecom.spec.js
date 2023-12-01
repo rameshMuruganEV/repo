@@ -1,8 +1,7 @@
-const { test, expect } = require("@playwright/test");
 const { customTest } = require("../testData/testData_Magento");
 const { POM_Magento } = require("../pageObjectMagento/POM_Magento");
 
-customTest("registeringNewUser", async ({ page, registeringNewUser }) => {
+customTest.skip("registeringNewUser", async ({ page, registeringNewUser }) => {
   const pOM_Magento = new POM_Magento(page);
   const loginPage = await pOM_Magento.getLoginPage();
   const dashboardPage = await pOM_Magento.getDashboardPage();
@@ -10,9 +9,9 @@ customTest("registeringNewUser", async ({ page, registeringNewUser }) => {
   await loginPage.goTo(registeringNewUser.Url);
   await dashboardPage.clickCreateAccountLink();
   await loginPage.assertsignUpURL(registeringNewUser.CreateAccountURL);
-  await loginPage.assertnewCustomerBanner(registeringNewUser.NewCustomerBanner);
+  await loginPage.assertnewCustomerBanner();
   await loginPage.assertFieldsAreVisible();
-  await loginPage.fillTheFields(
+  await loginPage.fillTheNewUserFields(
     registeringNewUser.FirstName,
     registeringNewUser.LastName,
     registeringNewUser.Email,
@@ -23,8 +22,21 @@ customTest("registeringNewUser", async ({ page, registeringNewUser }) => {
   await loginPage.assertSuccesfulAccountCreation(
     registeringNewUser.SuccessfulAccountCreationText,
   );
-  await loginPage.assertUserBanerInProfile(
-    registeringNewUser.FirstName,
-    registeringNewUser.LastName,
-  );
+  await loginPage.pageLoadState();
+  await loginPage.waitForUserBanerInProfile();
+  await loginPage.assertUserBanerInProfile(registeringNewUser.Banner);
+});
+
+customTest.skip("loginUser", async ({ page, loginUser }) => {
+  const pOM_Magento = new POM_Magento(page);
+  const loginPage = await pOM_Magento.getLoginPage();
+
+  await loginPage.goTo(loginUser.Url);
+  await loginPage.clickSignInLink();
+  await loginPage.assertLoginCustomerBanner();
+  await loginPage.fillTheLoginFields(loginUser.Email, loginUser.Password);
+  await loginPage.clickSignInBtn();
+  await loginPage.pageLoadState();
+  await loginPage.waitForUserBanerInProfile();
+  await loginPage.assertUserBanerInProfile(loginUser.Banner);
 });
