@@ -34,6 +34,8 @@ exports.customTest = base.test.extend({
     Url: "https://magento.softwaretestingboard.com/",
     Email: "rameshmtester@gmail.com",
     Password: "Lala@123",
+    ProductName: "Hollister Backyard Sweatshirt",
+    Price: "$52.00",
   },
 
   logoutUser: {

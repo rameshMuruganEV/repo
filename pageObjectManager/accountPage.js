@@ -7,9 +7,7 @@ class AccountPage {
       .getByRole("heading", { name: "My Account" })
       .locator("span");
     this.changePassword = page.getByRole("link", { name: "Change Password" });
-    this.changePasswordCheckbox = page.locator("#form-validate div").filter({
-      hasText: "Change Password",
-    });
+    this.changePasswordCheckbox = page.locator("#change-password");
     this.editAccountInfoBanner = page.getByText("Edit Account Information");
     this.successfulPasswordReset = page.getByText("You saved the account");
     this.currentPassword = page.getByLabel("Current Password");

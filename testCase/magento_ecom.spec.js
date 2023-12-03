@@ -58,22 +58,20 @@ customTest("e2eTest", async ({ page, e2eTest }) => {
   const POM = new PageObjectManager(page);
   const loginPage = await POM.getLoginPage();
   const dashboardPage = await POM.getDashboardPage();
+  const productPage = await POM.getProductPage();
 
   await loginPage.goTo(e2eTest.Url);
   await dashboardPage.selectMenCategory();
   await dashboardPage.selectSweatshirts();
   await dashboardPage.selectProduct();
-  // await expect(
-  //   page1.getByRole("img", { name: "Hollister Backyard Sweatshirt" }).first(),
-  // ).toBeVisible();
-  // await expect(page1.locator("h1")).toContainText(
-  //   "Hollister Backyard Sweatshirt",
-  // );
-  // await expect(page1.locator("#product-price-126")).toContainText("$52.00");
-  // await page1.getByRole("button", { name: "Add to Cart" }).click();
+  await productPage.assertWhetherProductImgIsAvailable();
+  await productPage.assertWhetherTheProductNameisVisibleInProductPage(
+    e2eTest.ProductName,
+  );
+  await productPage.assertPriceEvaluate(e2eTest.Price);
+  await productPage.clickAdd2CartProduct();
   // await page1.getByLabel("M", { exact: true }).click();
   // await page1.getByLabel("Green").click();
-  // await page1.getByLabel("Qty").click();
   // await page1.getByLabel("Qty").fill("2");
   // await page1.locator(".fieldset > .field > .control").first().click();
   // await page1.getByRole("button", { name: "Add to Cart" }).click();
@@ -132,7 +130,7 @@ customTest("password reset", async ({ page, passwordReset }) => {
   await accountPage.assertmyAccountURL(passwordReset.MyAccountUrl);
   await accountPage.clickChangePassword();
   await accountPage.assertchangePasswordPageIsLoaded();
-  // await accountPage.assertchangePasswordCheckbokIsChecked();
+  await accountPage.assertchangePasswordCheckbokIsChecked();
   await accountPage.fillPasswordResetFields(
     passwordReset.CurrentPassword,
     passwordReset.NewPassword,
